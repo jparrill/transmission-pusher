@@ -3,13 +3,14 @@
 Tests for TransmissionClient class
 """
 
-import pytest
-import os
-import tempfile
-import shutil
-from unittest.mock import Mock, patch, MagicMock
-import sys
 import base64
+import os
+import shutil
+import sys
+import tempfile
+from unittest.mock import MagicMock, Mock, patch
+
+import pytest
 
 # Add the src directory to the path so we can import the module
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
@@ -31,49 +32,39 @@ class TestTransmissionClient:
     @pytest.fixture
     def client(self, mock_session):
         """Create a TransmissionClient instance for testing"""
-        with patch('transmission_pusher.transmission_client.requests.Session', return_value=mock_session):
-            client = TransmissionClient(
-                host="localhost",
-                port=9091,
-                username="test_user",
-                password="test_pass"
-            )
+        with patch("transmission_pusher.transmission_client.requests.Session", return_value=mock_session):
+            client = TransmissionClient(host="localhost", port=9091, username="test_user", password="test_pass")
             return client
 
     def test_init_with_host_port(self, mock_session):
         """Test client initialization with host and port"""
-        with patch('transmission_pusher.transmission_client.requests.Session', return_value=mock_session):
+        with patch("transmission_pusher.transmission_client.requests.Session", return_value=mock_session):
             client = TransmissionClient(host="192.168.1.100", port=9091)
             assert client.base_url == "http://192.168.1.100:9091/transmission/rpc"
             assert mock_session.auth == None  # No auth provided
 
     def test_init_with_base_url(self, mock_session):
         """Test client initialization with base URL"""
-        with patch('transmission_pusher.transmission_client.requests.Session', return_value=mock_session):
-            client = TransmissionClient(
-                base_url="http://192.168.1.127:29091/transmission"
-            )
+        with patch("transmission_pusher.transmission_client.requests.Session", return_value=mock_session):
+            client = TransmissionClient(base_url="http://192.168.1.127:29091/transmission")
             assert client.base_url == "http://192.168.1.127:29091/transmission/rpc"
 
     def test_init_with_auth(self, mock_session):
         """Test client initialization with authentication"""
-        with patch('transmission_pusher.transmission_client.requests.Session', return_value=mock_session):
-            client = TransmissionClient(
-                username="test_user",
-                password="test_pass"
-            )
+        with patch("transmission_pusher.transmission_client.requests.Session", return_value=mock_session):
+            client = TransmissionClient(username="test_user", password="test_pass")
             assert mock_session.auth == ("test_user", "test_pass")
 
     def test_get_session_id_success(self, client, mock_session):
         """Test successful session ID retrieval"""
         mock_response = Mock()
         mock_response.status_code = 409
-        mock_response.headers = {'X-Transmission-Session-Id': 'test-session-id'}
+        mock_response.headers = {"X-Transmission-Session-Id": "test-session-id"}
         mock_session.get.return_value = mock_response
 
         client._get_session_id()
 
-        assert mock_session.headers['X-Transmission-Session-Id'] == 'test-session-id'
+        assert mock_session.headers["X-Transmission-Session-Id"] == "test-session-id"
         # The method is called twice: once in __init__ and once in _get_session_id
         assert mock_session.get.call_count == 2
         assert mock_session.get.call_args_list[0][0][0] == client.base_url
@@ -89,7 +80,7 @@ class TestTransmissionClient:
         client._get_session_id()
 
         # Should not update headers if no session ID
-        assert 'X-Transmission-Session-Id' not in mock_session.headers
+        assert "X-Transmission-Session-Id" not in mock_session.headers
 
     def test_get_session_id_connection_error(self, client, mock_session):
         """Test session ID retrieval with connection error"""
@@ -101,7 +92,7 @@ class TestTransmissionClient:
     def test_add_torrent_file_success(self, client, mock_session):
         """Test successful torrent file addition"""
         # Create a temporary torrent file
-        with tempfile.NamedTemporaryFile(suffix='.torrent', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".torrent", delete=False) as f:
             f.write(b"d8:announce35:http://example.com/announce4:info...")
             torrent_file = f.name
 
@@ -110,13 +101,7 @@ class TestTransmissionClient:
             mock_response.status_code = 200
             mock_response.json.return_value = {
                 "result": "success",
-                "arguments": {
-                    "torrent-added": {
-                        "id": 1,
-                        "name": "Test Torrent",
-                        "hashString": "abc123"
-                    }
-                }
+                "arguments": {"torrent-added": {"id": 1, "name": "Test Torrent", "hashString": "abc123"}},
             }
             mock_session.post.return_value = mock_response
 
@@ -141,17 +126,14 @@ class TestTransmissionClient:
     def test_add_torrent_file_api_error(self, client, mock_session):
         """Test torrent file addition with API error"""
         # Create a temporary torrent file
-        with tempfile.NamedTemporaryFile(suffix='.torrent', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".torrent", delete=False) as f:
             f.write(b"d8:announce35:http://example.com/announce4:info...")
             torrent_file = f.name
 
         try:
             mock_response = Mock()
             mock_response.status_code = 200
-            mock_response.json.return_value = {
-                "result": "error",
-                "arguments": {}
-            }
+            mock_response.json.return_value = {"result": "error", "arguments": {}}
             mock_session.post.return_value = mock_response
 
             result = client.add_torrent_file(torrent_file)
@@ -167,11 +149,7 @@ class TestTransmissionClient:
         mock_response.status_code = 200
         mock_response.json.return_value = {
             "result": "success",
-            "arguments": {
-                "torrent-added": {
-                    "name": "Test Torrent"
-                }
-            }
+            "arguments": {"torrent-added": {"name": "Test Torrent"}},
         }
         mock_session.post.return_value = mock_response
 
@@ -189,10 +167,7 @@ class TestTransmissionClient:
         """Test torrent URL addition with API error"""
         mock_response = Mock()
         mock_response.status_code = 200
-        mock_response.json.return_value = {
-            "result": "error",
-            "arguments": {}
-        }
+        mock_response.json.return_value = {"result": "error", "arguments": {}}
         mock_session.post.return_value = mock_response
 
         result = client.add_torrent_url("https://example.com/test.torrent")
@@ -206,20 +181,8 @@ class TestTransmissionClient:
         mock_response.json.return_value = {
             "arguments": {
                 "torrents": [
-                    {
-                        "id": 1,
-                        "name": "Test Torrent 1",
-                        "status": 4,
-                        "percentDone": 0.5,
-                        "downloadDir": "/downloads"
-                    },
-                    {
-                        "id": 2,
-                        "name": "Test Torrent 2",
-                        "status": 6,
-                        "percentDone": 1.0,
-                        "downloadDir": "/downloads"
-                    }
+                    {"id": 1, "name": "Test Torrent 1", "status": 4, "percentDone": 0.5, "downloadDir": "/downloads"},
+                    {"id": 2, "name": "Test Torrent 2", "status": 6, "percentDone": 1.0, "downloadDir": "/downloads"},
                 ]
             }
         }
@@ -235,11 +198,7 @@ class TestTransmissionClient:
         """Test torrent list retrieval with empty result"""
         mock_response = Mock()
         mock_response.status_code = 200
-        mock_response.json.return_value = {
-            "arguments": {
-                "torrents": []
-            }
-        }
+        mock_response.json.return_value = {"arguments": {"torrents": []}}
         mock_session.post.return_value = mock_response
 
         torrents = client.get_torrents()
@@ -270,7 +229,7 @@ class TestTransmissionClientIntegration:
         torrent_content = b"d8:announce35:http://example.com/announce4:info..."
         torrent_file = os.path.join(temp_dir, "test.torrent")
 
-        with open(torrent_file, 'wb') as f:
+        with open(torrent_file, "wb") as f:
             f.write(torrent_content)
 
         # Mock the session
@@ -282,7 +241,7 @@ class TestTransmissionClientIntegration:
         mock_session.auth = None
         mock_session.headers = {}
 
-        with patch('transmission_pusher.transmission_client.requests.Session', return_value=mock_session):
+        with patch("transmission_pusher.transmission_client.requests.Session", return_value=mock_session):
             client = TransmissionClient()
             client.add_torrent_file(torrent_file)
 

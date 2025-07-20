@@ -20,8 +20,8 @@ test-cov: ## Run tests with coverage
 lint: lint-black lint-flake8 lint-isort lint-mypy ## Run all linting checks
 
 format: ## Format code with black and isort
-	black src/ tests/ scripts/ examples/ transmission_client.py diagnose_connection.py
-	isort src/ tests/ scripts/ examples/ transmission_client.py diagnose_connection.py
+	black src/ tests/ scripts/ examples/ transmission_client.py diagnose_connection.py n8n/
+	isort src/ tests/ scripts/ examples/ transmission_client.py diagnose_connection.py n8n/
 
 clean: ## Clean build artifacts
 	rm -rf build/
@@ -71,16 +71,16 @@ coverage: ## Run tests with coverage and generate HTML report
 	pytest --cov=src/transmission_pusher --cov-report=html --cov-report=term-missing
 
 lint-black: ## Check code style with black
-	black --check src/ examples/ scripts/ transmission_client.py diagnose_connection.py
+	black --check src/ examples/ scripts/ transmission_client.py diagnose_connection.py n8n/
 
 lint-flake8: ## Check code style with flake8
-	flake8 src/ examples/ scripts/ transmission_client.py diagnose_connection.py
+	flake8 src/ examples/ scripts/ transmission_client.py diagnose_connection.py n8n/
 
 lint-isort: ## Check import order with isort
-	isort --check-only src/ examples/ scripts/ transmission_client.py diagnose_connection.py
+	isort --check-only src/ examples/ scripts/ transmission_client.py diagnose_connection.py n8n/
 
 lint-mypy: ## Check types with mypy
-	mypy src/ transmission_client.py diagnose_connection.py
+	mypy src/ transmission_client.py diagnose_connection.py n8n/
 
 verify: venv deps lint-black lint-flake8 lint-isort lint-mypy test coverage
 	@echo "🎉 All verification steps passed!"
