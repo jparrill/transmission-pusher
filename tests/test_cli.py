@@ -206,7 +206,8 @@ class TestCLI:
                 output = mock_stdout.getvalue()
                 assert "Successfully added 2/3 torrents" in output
 
-    def test_no_arguments(self) -> None:
+    @patch("transmission_pusher.transmission_client.TransmissionClient")
+    def test_no_arguments(self, mock_client_class: Mock) -> None:
         """Test running without arguments"""
         # Mock sys.argv
         with patch("sys.argv", ["transmission_client.py"]):
@@ -217,7 +218,8 @@ class TestCLI:
                 output = mock_stdout.getvalue()
                 assert "You must specify" in output
 
-    def test_file_not_found(self) -> None:
+    @patch("transmission_pusher.transmission_client.TransmissionClient")
+    def test_file_not_found(self, mock_client_class: Mock) -> None:
         """Test adding non-existent file"""
         # Mock sys.argv
         with patch("sys.argv", ["transmission_client.py", "/non/existent/file.torrent"]):
@@ -228,7 +230,8 @@ class TestCLI:
                 output = mock_stdout.getvalue()
                 assert "File does not exist" in output
 
-    def test_invalid_url(self) -> None:
+    @patch("transmission_pusher.transmission_client.TransmissionClient")
+    def test_invalid_url(self, mock_client_class: Mock) -> None:
         """Test adding invalid URL"""
         # Mock sys.argv
         with patch("sys.argv", ["transmission_client.py", "not-a-url"]):

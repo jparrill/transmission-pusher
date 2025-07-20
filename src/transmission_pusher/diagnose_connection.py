@@ -21,7 +21,7 @@ def test_url(url: str, description: str) -> bool:
         response = requests.get(url, timeout=5)
         print(f"   Status: {response.status_code}")
         print(f"   Headers: {dict(response.headers)}")
-        return response.status_code == 200
+        return bool(response.status_code == 200)
     except requests.exceptions.RequestException as e:
         print(f"   Error: {e}")
         return False
