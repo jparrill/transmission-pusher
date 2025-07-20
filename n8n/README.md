@@ -98,6 +98,58 @@ The script will return appropriate exit codes:
 - `0`: Success
 - `1`: Error
 
+## CLI Installation
+
+You can install a global CLI command that automatically loads the .env file from this repository:
+
+### Quick Installation
+
+```bash
+# Run the installation script
+./n8n/install-cli.sh
+```
+
+This will:
+1. Copy the CLI script to `~/bin/transmission-cli`
+2. Make it executable
+3. Check if `~/bin` is in your PATH
+
+### Manual Installation
+
+If you prefer to install manually:
+
+```bash
+# Copy the CLI script to ~/bin
+cp n8n/transmission-cli ~/bin/
+chmod +x ~/bin/transmission-cli
+
+# Make sure ~/bin is in your PATH (add to .bashrc, .zshrc, etc.)
+export PATH="$HOME/bin:$PATH"
+```
+
+### Usage
+
+After installation, you can use the CLI from anywhere:
+
+```bash
+# Show help
+transmission-cli --help
+
+# List existing torrents
+transmission-cli --list
+
+# Add a torrent file
+transmission-cli /path/to/file.torrent
+
+# Add from URL
+transmission-cli "https://example.com/file.torrent"
+
+# Process a folder
+transmission-cli --folder /path/to/torrents/
+```
+
+The CLI automatically loads the `.env` file from this repository, so you don't need to specify credentials each time.
+
 ## Advantages over the original script
 
 1. **No external dependencies**: Doesn't need to install `requests` or `python-dotenv`
