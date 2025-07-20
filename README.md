@@ -1,9 +1,9 @@
 # Transmission Pusher
 
-[![CI](https://github.com/yourusername/transmission-pusher/workflows/CI/badge.svg)](https://github.com/yourusername/transmission-pusher/actions)
+[![CI](https://github.com/jparrill/transmission-pusher/workflows/CI/badge.svg)](https://github.com/jparrill/transmission-pusher/actions)
 [![PyPI](https://img.shields.io/pypi/v/transmission-pusher)](https://pypi.org/project/transmission-pusher/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Code Coverage](https://codecov.io/gh/yourusername/transmission-pusher/branch/main/graph/badge.svg)](https://codecov.io/gh/yourusername/transmission-pusher)
+[![Code Coverage](https://codecov.io/gh/jparrill/transmission-pusher/branch/main/graph/badge.svg)](https://codecov.io/gh/jparrill/transmission-pusher)
 
 A Python client for Transmission BitTorrent client that provides a simple and efficient way to interact with Transmission via its RPC API, allowing you to add torrents, list existing torrents, and manage your downloads programmatically.
 
@@ -30,7 +30,7 @@ pip install transmission-pusher
 ### From Source
 
 ```bash
-git clone https://github.com/yourusername/transmission-pusher.git
+git clone https://github.com/jparrill/transmission-pusher.git
 cd transmission-pusher
 pip install -e .
 ```
@@ -38,7 +38,7 @@ pip install -e .
 ### Development Installation
 
 ```bash
-git clone https://github.com/yourusername/transmission-pusher.git
+git clone https://github.com/jparrill/transmission-pusher.git
 cd transmission-pusher
 pip install -e ".[dev]"
 ```
@@ -49,7 +49,7 @@ pip install -e ".[dev]"
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/transmission-pusher.git
+git clone https://github.com/jparrill/transmission-pusher.git
 cd transmission-pusher
 
 # Set up environment
@@ -283,9 +283,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-- 📖 [Documentation](https://github.com/yourusername/transmission-pusher#readme)
-- 🐛 [Issue Tracker](https://github.com/yourusername/transmission-pusher/issues)
-- 💬 [Discussions](https://github.com/yourusername/transmission-pusher/discussions)
+- 📖 [Documentation](https://github.com/jparrill/transmission-pusher#readme)
+- 🐛 [Issue Tracker](https://github.com/jparrill/transmission-pusher/issues)
+- 💬 [Discussions](https://github.com/jparrill/transmission-pusher/discussions)
 
 ## Changelog
 

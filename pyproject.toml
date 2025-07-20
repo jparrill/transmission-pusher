@@ -50,10 +50,10 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/transmission-pusher"
-Documentation = "https://github.com/yourusername/transmission-pusher#readme"
-Repository = "https://github.com/yourusername/transmission-pusher"
-"Bug Tracker" = "https://github.com/yourusername/transmission-pusher/issues"
+Homepage = "https://github.com/jparrill/transmission-pusher"
+Documentation = "https://github.com/jparrill/transmission-pusher#readme"
+Repository = "https://github.com/jparrill/transmission-pusher"
+"Bug Tracker" = "https://github.com/jparrill/transmission-pusher/issues"
 
 [project.scripts]
 transmission-pusher = "transmission_pusher.transmission_client:main"
