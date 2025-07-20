@@ -5,15 +5,12 @@ Tests for command line interface functionality
 
 import os
 import shutil
-import sys
 import tempfile
 from io import StringIO
-from unittest.mock import MagicMock, Mock, patch
+from typing import Generator
+from unittest.mock import Mock, patch
 
 import pytest
-
-# Add the src directory to the path so we can import the module
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
 
 from transmission_pusher.transmission_client import main
 
@@ -22,7 +19,7 @@ class TestCLI:
     """Test cases for command line interface"""
 
     @pytest.fixture
-    def mock_client(self):
+    def mock_client(self) -> Mock:
         """Create a mock TransmissionClient"""
         mock = Mock()
         mock.get_torrents.return_value = [
@@ -32,14 +29,14 @@ class TestCLI:
         return mock
 
     @pytest.fixture
-    def temp_dir(self):
+    def temp_dir(self) -> Generator[str, None, None]:
         """Create a temporary directory for testing"""
         temp_dir = tempfile.mkdtemp()
         yield temp_dir
         shutil.rmtree(temp_dir)
 
     @patch("transmission_pusher.transmission_client.TransmissionClient")
-    def test_list_torrents(self, mock_client_class, mock_client):
+    def test_list_torrents(self, mock_client_class: Mock, mock_client: Mock) -> None:
         """Test --list functionality"""
         mock_client_class.return_value = mock_client
 
@@ -56,7 +53,7 @@ class TestCLI:
                 assert "100.0%" in output
 
     @patch("transmission_pusher.transmission_client.TransmissionClient")
-    def test_add_local_file(self, mock_client_class, mock_client):
+    def test_add_local_file(self, mock_client_class: Mock, mock_client: Mock) -> None:
         """Test adding a local torrent file"""
         mock_client_class.return_value = mock_client
         mock_client.add_torrent_file.return_value = {"result": "success"}
@@ -81,7 +78,7 @@ class TestCLI:
             os.unlink(torrent_file)
 
     @patch("transmission_pusher.transmission_client.TransmissionClient")
-    def test_add_url(self, mock_client_class, mock_client):
+    def test_add_url(self, mock_client_class: Mock, mock_client: Mock) -> None:
         """Test adding a torrent from URL"""
         mock_client_class.return_value = mock_client
         mock_client.add_torrent_url.return_value = {"result": "success"}
@@ -97,7 +94,7 @@ class TestCLI:
                 assert "Adding from URL" in output
 
     @patch("transmission_pusher.transmission_client.TransmissionClient")
-    def test_process_folder(self, mock_client_class, mock_client, temp_dir):
+    def test_process_folder(self, mock_client_class: Mock, mock_client: Mock, temp_dir: str) -> None:
         """Test --folder functionality"""
         mock_client_class.return_value = mock_client
         mock_client.add_torrent_file.return_value = {"result": "success"}
@@ -128,7 +125,7 @@ class TestCLI:
                 assert "Successfully added 3/3 torrents" in output
 
     @patch("transmission_pusher.transmission_client.TransmissionClient")
-    def test_process_folder_no_torrents(self, mock_client_class, mock_client, temp_dir):
+    def test_process_folder_no_torrents(self, mock_client_class: Mock, mock_client: Mock, temp_dir: str) -> None:
         """Test --folder functionality with no torrent files"""
         mock_client_class.return_value = mock_client
 
@@ -147,7 +144,7 @@ class TestCLI:
                 assert "No .torrent files found" in output
 
     @patch("transmission_pusher.transmission_client.TransmissionClient")
-    def test_process_folder_nonexistent(self, mock_client_class, mock_client):
+    def test_process_folder_nonexistent(self, mock_client_class: Mock, mock_client: Mock) -> None:
         """Test --folder functionality with non-existent folder"""
         mock_client_class.return_value = mock_client
 
@@ -161,7 +158,7 @@ class TestCLI:
                 assert "Folder does not exist" in output
 
     @patch("transmission_pusher.transmission_client.TransmissionClient")
-    def test_process_folder_not_directory(self, mock_client_class, mock_client, temp_dir):
+    def test_process_folder_not_directory(self, mock_client_class: Mock, mock_client: Mock, temp_dir: str) -> None:
         """Test --folder functionality with file instead of directory"""
         mock_client_class.return_value = mock_client
 
@@ -180,7 +177,7 @@ class TestCLI:
                 assert "Path is not a directory" in output
 
     @patch("transmission_pusher.transmission_client.TransmissionClient")
-    def test_process_folder_partial_failure(self, mock_client_class, mock_client, temp_dir):
+    def test_process_folder_partial_failure(self, mock_client_class: Mock, mock_client: Mock, temp_dir: str) -> None:
         """Test --folder functionality with some failures"""
         mock_client_class.return_value = mock_client
 
@@ -209,7 +206,7 @@ class TestCLI:
                 output = mock_stdout.getvalue()
                 assert "Successfully added 2/3 torrents" in output
 
-    def test_no_arguments(self):
+    def test_no_arguments(self) -> None:
         """Test running without arguments"""
         # Mock sys.argv
         with patch("sys.argv", ["transmission_client.py"]):
@@ -220,7 +217,7 @@ class TestCLI:
                 output = mock_stdout.getvalue()
                 assert "You must specify" in output
 
-    def test_file_not_found(self):
+    def test_file_not_found(self) -> None:
         """Test adding non-existent file"""
         # Mock sys.argv
         with patch("sys.argv", ["transmission_client.py", "/non/existent/file.torrent"]):
@@ -231,7 +228,7 @@ class TestCLI:
                 output = mock_stdout.getvalue()
                 assert "File does not exist" in output
 
-    def test_invalid_url(self):
+    def test_invalid_url(self) -> None:
         """Test adding invalid URL"""
         # Mock sys.argv
         with patch("sys.argv", ["transmission_client.py", "not-a-url"]):
@@ -243,7 +240,7 @@ class TestCLI:
                 assert "File does not exist and is not a valid URL" in output
 
     @patch("transmission_pusher.transmission_client.TransmissionClient")
-    def test_environment_variables(self, mock_client_class, mock_client):
+    def test_environment_variables(self, mock_client_class: Mock, mock_client: Mock) -> None:
         """Test that environment variables are used when command line args are not provided"""
         mock_client_class.return_value = mock_client
         mock_client.get_torrents.return_value = []

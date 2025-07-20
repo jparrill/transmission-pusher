@@ -23,7 +23,7 @@ if [ ! -d "$HOME/bin" ]; then
 fi
 
 # Copy the CLI script
-CLI_SOURCE="$SCRIPT_DIR/transmission-cli"
+CLI_SOURCE="$SCRIPT_DIR/transmission-pusher"
 CLI_DEST="$HOME/bin/transmission-pusher"
 
 if [ -f "$CLI_SOURCE" ]; then

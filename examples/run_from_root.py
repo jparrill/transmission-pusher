@@ -14,7 +14,7 @@ src_path = project_root / "src"
 sys.path.insert(0, str(src_path))
 
 
-def main():
+def main() -> None:
     """Main example function"""
     print("🚀 Transmission Client Example - Running from project root")
     print("=" * 60)
@@ -22,7 +22,7 @@ def main():
     # Load environment variables
     from dotenv import load_dotenv
 
-    from transmission_pusher.diagnose_connection import diagnose_connection
+    from transmission_pusher.diagnose_connection import main as diagnose_connection
     from transmission_pusher.transmission_client import TransmissionClient
 
     load_dotenv()

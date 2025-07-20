@@ -52,8 +52,10 @@ venv: ## Create virtual environment if it doesn't exist
 		echo "Creating virtual environment..."; \
 		python3 -m venv .venv; \
 		echo "Virtual environment created successfully!"; \
+		source .venv/bin/activate; \
 	else \
 		echo "Virtual environment already exists."; \
+		source .venv/bin/activate; \
 	fi
 
 deps: venv ## Install/update all dependencies in the venv

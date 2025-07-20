@@ -6,10 +6,10 @@ Configured to use environment variables
 
 import os
 
-from transmission_client import TransmissionClient
+from transmission_pusher.transmission_client import TransmissionClient
 
 
-def example_list_torrents():
+def example_list_torrents() -> None:
     """Example: List existing torrents"""
     print("📋 Example: Listing existing torrents...")
 
@@ -36,7 +36,7 @@ def example_list_torrents():
         print(f"❌ Error: {e}")
 
 
-def example_add_local_file():
+def example_add_local_file() -> None:
     """Example: Add local .torrent file"""
     print("📁 Example: Adding local file...")
 
@@ -60,7 +60,7 @@ def example_add_local_file():
         print(f"❌ Error: {e}")
 
 
-def example_add_from_url():
+def example_add_from_url() -> None:
     """Example: Add torrent from URL"""
     print("🌐 Example: Adding from URL...")
 

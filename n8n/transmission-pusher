@@ -16,11 +16,11 @@ script_dir = Path(__file__).parent.absolute()
 repo_path = Path("/Users/jparrill/Projects/transmission-pusher")
 env_file = repo_path / ".env"
 if env_file.exists():
-    with open(env_file, 'r') as f:
+    with open(env_file, "r") as f:
         for line in f:
             line = line.strip()
-            if line and not line.startswith('#') and '=' in line:
-                key, value = line.split('=', 1)
+            if line and not line.startswith("#") and "=" in line:
+                key, value = line.split("=", 1)
                 os.environ[key] = value
 
 # Import and run the standalone script
@@ -37,8 +37,8 @@ if not standalone_script.exists():
 
 if standalone_script.exists():
     # Read and execute the standalone script
-    with open(standalone_script, 'r') as f:
-        code = compile(f.read(), str(standalone_script), 'exec')
+    with open(standalone_script, "r") as f:
+        code = compile(f.read(), str(standalone_script), "exec")
     exec(code)
 else:
     print("❌ Error: transmission_standalone.py not found")

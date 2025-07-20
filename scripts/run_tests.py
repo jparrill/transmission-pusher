@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 
-def run_tests():
+def run_tests() -> None:
     """Run all tests"""
     print("🧪 Running Transmission Client Tests")
     print("=" * 50)

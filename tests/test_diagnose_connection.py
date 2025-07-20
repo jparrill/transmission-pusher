@@ -3,16 +3,10 @@
 Tests for diagnose_connection functionality
 """
 
-import os
-import sys
 from io import StringIO
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import Mock, patch
 
-import pytest
 import requests
-
-# Add the src directory to the path so we can import the module
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
 
 from transmission_pusher.diagnose_connection import check_rpc_endpoint, main
 
@@ -20,7 +14,7 @@ from transmission_pusher.diagnose_connection import check_rpc_endpoint, main
 class TestDiagnoseConnection:
     """Test cases for diagnose_connection functionality"""
 
-    def test_rpc_endpoint_success(self):
+    def test_rpc_endpoint_success(self) -> None:
         """Test successful RPC endpoint test"""
         with patch("transmission_pusher.diagnose_connection.requests.get") as mock_get:
             mock_response = Mock()
@@ -31,12 +25,12 @@ class TestDiagnoseConnection:
             with patch("sys.stdout", new=StringIO()) as mock_stdout:
                 result = check_rpc_endpoint("http://test:9091/transmission")
 
-                assert result == True
+                assert result is True
                 output = mock_stdout.getvalue()
                 assert "Testing RPC endpoint" in output
                 assert "Session ID: test-session-id" in output
 
-    def test_rpc_endpoint_200_status(self):
+    def test_rpc_endpoint_200_status(self) -> None:
         """Test RPC endpoint with 200 status"""
         with patch("transmission_pusher.diagnose_connection.requests.get") as mock_get:
             mock_response = Mock()
@@ -47,11 +41,11 @@ class TestDiagnoseConnection:
             with patch("sys.stdout", new=StringIO()) as mock_stdout:
                 result = check_rpc_endpoint("http://test:9091/transmission")
 
-                assert result == True
+                assert result is True
                 output = mock_stdout.getvalue()
                 assert "RPC endpoint accessible" in output
 
-    def test_rpc_endpoint_failure(self):
+    def test_rpc_endpoint_failure(self) -> None:
         """Test RPC endpoint with failure"""
         with patch("transmission_pusher.diagnose_connection.requests.get") as mock_get:
             mock_response = Mock()
@@ -62,11 +56,11 @@ class TestDiagnoseConnection:
             with patch("sys.stdout", new=StringIO()) as mock_stdout:
                 result = check_rpc_endpoint("http://test:9091/transmission")
 
-                assert result == False
+                assert result is False
                 output = mock_stdout.getvalue()
                 assert "Unexpected status: 404" in output
 
-    def test_rpc_endpoint_connection_error(self):
+    def test_rpc_endpoint_connection_error(self) -> None:
         """Test RPC endpoint with connection error"""
         with patch("transmission_pusher.diagnose_connection.requests.get") as mock_get:
             mock_get.side_effect = requests.exceptions.RequestException("Connection failed")
@@ -74,11 +68,11 @@ class TestDiagnoseConnection:
             with patch("sys.stdout", new=StringIO()) as mock_stdout:
                 result = check_rpc_endpoint("http://test:9091/transmission")
 
-                assert result == False
+                assert result is False
                 output = mock_stdout.getvalue()
                 assert "Error: Connection failed" in output
 
-    def test_main_successful_configuration(self):
+    def test_main_successful_configuration(self) -> None:
         """Test main function with successful configuration"""
         with patch("transmission_pusher.diagnose_connection.check_rpc_endpoint", return_value=True):
             with patch("sys.stdout", new=StringIO()) as mock_stdout:
@@ -95,7 +89,7 @@ class TestDiagnoseConnection:
                     output = mock_stdout.getvalue()
                     assert "Current configuration works!" in output
 
-    def test_main_failed_configuration(self):
+    def test_main_failed_configuration(self) -> None:
         """Test main function with failed configuration"""
         with patch("transmission_pusher.diagnose_connection.check_rpc_endpoint", return_value=False):
             with patch("transmission_pusher.diagnose_connection.requests.get") as mock_get:
