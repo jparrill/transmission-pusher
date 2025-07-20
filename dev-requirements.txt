@@ -1,0 +1,19 @@
+# Development dependencies for transmission-pusher
+# Install with: pip install -r dev-requirements.txt
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=6.2.0
+pytest-mock>=3.10.0
+
+# Code formatting and linting
+black>=22.0.0
+flake8>=4.0.0
+isort>=6.0.0
+
+# Type checking
+mypy>=0.991
+
+# Core dependencies (for development)
+requests>=2.25.0
+python-dotenv>=1.0.0
