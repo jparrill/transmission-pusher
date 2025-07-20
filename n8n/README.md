@@ -110,7 +110,7 @@ You can install a global CLI command that automatically loads the .env file from
 ```
 
 This will:
-1. Copy the CLI script to `~/bin/transmission-cli`
+1. Copy the CLI script to `~/bin/transmission-pusher`
 2. Make it executable
 3. Check if `~/bin` is in your PATH
 
@@ -120,8 +120,8 @@ If you prefer to install manually:
 
 ```bash
 # Copy the CLI script to ~/bin
-cp n8n/transmission-cli ~/bin/
-chmod +x ~/bin/transmission-cli
+cp n8n/transmission-cli ~/bin/transmission-pusher
+chmod +x ~/bin/transmission-pusher
 
 # Make sure ~/bin is in your PATH (add to .bashrc, .zshrc, etc.)
 export PATH="$HOME/bin:$PATH"
@@ -133,19 +133,19 @@ After installation, you can use the CLI from anywhere:
 
 ```bash
 # Show help
-transmission-cli --help
+transmission-pusher --help
 
 # List existing torrents
-transmission-cli --list
+transmission-pusher --list
 
 # Add a torrent file
-transmission-cli /path/to/file.torrent
+transmission-pusher /path/to/file.torrent
 
 # Add from URL
-transmission-cli "https://example.com/file.torrent"
+transmission-pusher "https://example.com/file.torrent"
 
 # Process a folder
-transmission-cli --folder /path/to/torrents/
+transmission-pusher --folder /path/to/torrents/
 ```
 
 The CLI automatically loads the `.env` file from this repository, so you don't need to specify credentials each time.

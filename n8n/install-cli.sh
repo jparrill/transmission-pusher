@@ -24,12 +24,12 @@ fi
 
 # Copy the CLI script
 CLI_SOURCE="$SCRIPT_DIR/transmission-cli"
-CLI_DEST="$HOME/bin/transmission-cli"
+CLI_DEST="$HOME/bin/transmission-pusher"
 
 if [ -f "$CLI_SOURCE" ]; then
     cp "$CLI_SOURCE" "$CLI_DEST"
     chmod +x "$CLI_DEST"
-    echo -e "${GREEN}✅ transmission-cli installed successfully to $CLI_DEST${NC}"
+    echo -e "${GREEN}✅ transmission-pusher installed successfully to $CLI_DEST${NC}"
 else
     echo -e "${RED}❌ Error: transmission-cli script not found at $CLI_SOURCE${NC}"
     exit 1
@@ -46,6 +46,6 @@ fi
 
 echo -e "${GREEN}🎉 Installation complete!${NC}"
 echo -e "${YELLOW}Usage examples:${NC}"
-echo -e "  transmission-cli --help"
-echo -e "  transmission-cli --list"
-echo -e "  transmission-cli /path/to/file.torrent"
+echo -e "  transmission-pusher --help"
+echo -e "  transmission-pusher --list"
+echo -e "  transmission-pusher /path/to/file.torrent"
