@@ -11,7 +11,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo -e "${YELLOW}Installing transmission-cli to ~/bin...${NC}"
+echo -e "${YELLOW}Installing transmission-pusher to ~/bin...${NC}"
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -31,7 +31,7 @@ if [ -f "$CLI_SOURCE" ]; then
     chmod +x "$CLI_DEST"
     echo -e "${GREEN}✅ transmission-pusher installed successfully to $CLI_DEST${NC}"
 else
-    echo -e "${RED}❌ Error: transmission-cli script not found at $CLI_SOURCE${NC}"
+    echo -e "${RED}❌ Error: transmission-pusher script not found at $CLI_SOURCE${NC}"
     exit 1
 fi
 
