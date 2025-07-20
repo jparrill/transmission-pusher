@@ -1,5 +1,6 @@
 # Development dependencies for transmission-pusher
 # Install with: pip install -r dev-requirements.txt
+# Note: This file is kept for compatibility, but pyproject.toml is the source of truth
 
 # Testing
 pytest>=7.0.0
